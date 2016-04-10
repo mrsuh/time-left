@@ -4,87 +4,64 @@
     <base href="/">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1 user-scalable=no">
-    <style>
-        body {
-            margin: 0;
-        }
-
-        .square {
-            width: 20px;
-            height: 20px;
-            display: inline-block;
-            margin: 1px
-        }
-
-        .square.empty {
-            background-color: white;
-            border: 1px solid #1C1C1C;
-
-        }
-
-        .square.full {
-            background-color: #1C1C1C;
-            border: 1px solid white;
-        }
-
-        .width {
-            /*margin-top: 100px;*/
-            width: 70%;
-            margin-left: auto;
-            margin-right: auto;
-            font-size: 0;
-        }
-
-        #block_date {
-            /*height: 50px;*/
-            font-size: 65px;
-            text-align: center;
-            font-family: Garuda, Arial, FreeSans;
-        }
-
-        #date, #clock {
-            display: inline-block;
-        }
-
-        #block_weeks div, #block_days div {
-            font-size: 65px;
-            font-family: Garuda;
-        }
-
-    </style>
+    <link rel="stylesheet" href="style/common.css">
 </head>
 <body>
 <div class="width">
-    <div id="block_date">
-        <div id="date"></div>
-        <div id="clock"></div>
+
+    <div class="block-date">
+        <span id="date"></span>
+        <a href="https://github.com/mrsuh/time-left"><img src="github-ico.png"></a>
     </div>
-    <div id="block_weeks"></div>
-    <div id="block_days"></div>
+
+    <div class="block-video">
+        <div class="video">
+            <iframe src="https://embed-ssl.ted.com/talks/meg_jay_why_30_is_not_the_new_20.html" width="640" height="360"
+                    frameborder="0" scrolling="no" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+        </div>
+    </div>
+
+    <div class="block-weeks">
+        <div class="info">
+            <div class="square full"></div>
+            <div class="text"><span id="weeks_passed"></span> weeks passed</div>
+            <div class="square empty"></div>
+            <div class="text"><span id="weeks_left"></span> weeks left</div>
+        </div>
+        <div id="cell_weeks"></div>
+    </div>
+
+    <div class="block-days">
+        <div class="info">
+            <div class="square full"></div>
+            <div class="text"><span id="days_passed"></span> days passed</div>
+            <div class="square empty"></div>
+            <div class="text"><span id="days_left"></span> days left</div>
+        </div>
+        <div id="cell_days"></div>
+    </div>
+
 </div>
+
 </body>
 <script>
 
-    function startTime() {
-        var today = new Date();
-        var h = today.getHours();
-        var m = today.getMinutes();
-        var s = today.getSeconds();
-        m = checkTime(m);
-        s = checkTime(s);
-        document.getElementById('clock').innerHTML =
-                h + ":" + m + ":" + s;
-        var t = setTimeout(startTime, 500);
-    }
+    var block_video_video =document.querySelector('.block-video .video');
+    var block_video =document.querySelector('.block-video');
+
+    block_video_video.onmouseover = function () {
+        block_video.className = 'block-video hover';
+    };
+    block_video_video.onmouseout = function () {
+        block_video.className = 'block-video';
+    };
+
     function checkTime(i) {
         if (i < 10) {
             i = "0" + i
         }
-        ;  // add zero in front of numbers < 10
         return i;
     }
-    startTime();
-
 
     var current_date_time = new Date();
 
@@ -93,40 +70,61 @@
 
     var current_time_msec = current_date_time.getTime();
 
-    // прошедшее время с начала года, в миллисекундах
     var past_time_start_year_msec = current_time_msec - time_start_of_year_msec;
     var past_time_fin_year_msec = (time_fin_of_year_msec - time_start_of_year_msec) - past_time_start_year_msec;
 
-    // количество часов в одной неделе
     var msec_one_week = 604800000;
     var msec_one_day = 86400000;
 
-    var days_left = past_time_start_year_msec / msec_one_day;
-    var days_will = past_time_fin_year_msec / msec_one_day;
+    var days_passed = past_time_start_year_msec / msec_one_day;
+    var days_left = past_time_fin_year_msec / msec_one_day;
 
-    var weeks_left = past_time_start_year_msec / msec_one_week;
-    var weeks_will = past_time_fin_year_msec / msec_one_week;
+    document.getElementById('days_passed').innerHTML = days_passed.toFixed(0);
+    document.getElementById('days_left').innerHTML = days_left.toFixed(0);
+
+    var weeks_passed = past_time_start_year_msec / msec_one_week;
+    var weeks_left = past_time_fin_year_msec / msec_one_week;
+
+    document.getElementById('weeks_passed').innerHTML = weeks_passed.toFixed(0);
+    document.getElementById('weeks_left').innerHTML = weeks_left.toFixed(0);
 
     document.getElementById('date').innerHTML = checkTime(current_date_time.getDate()) + '.' + checkTime(current_date_time.getMonth() + 1) + '.' + current_date_time.getFullYear();
-    var str = '<div>' + days_left.toFixed(0) + '/' + days_will.toFixed(0) + '</div>';
-    for (var i = 1; i <= weeks_left.toFixed(1); i++) {
-        str += '<div class="square full"></div>';
-    }
 
-    for (var i = 1; i <= weeks_will.toFixed(1); i++) {
+    var str = '';
+    var weeks = parseInt(weeks_passed.toFixed(0)) + parseInt(weeks_left.toFixed(0));
+    for (var i = 1; i <= weeks; i++) {
         str += '<div class="square empty"></div>';
     }
-    document.getElementById('block_weeks').innerHTML = str;
+    document.getElementById('cell_weeks').innerHTML = str;
 
     str = '';
-    for (var i = 1; i <= days_left.toFixed(1); i++) {
-        str += '<div class="square full"></div>';
-    }
-
-    for (var i = 1; i <= days_will.toFixed(1); i++) {
+    var days = parseInt(days_passed.toFixed(0)) + parseInt(days_left.toFixed(0));
+    for (var i = 1; i <= days; i++) {
         str += '<div class="square empty"></div>';
     }
-    document.getElementById('block_days').innerHTML = str;
+
+    document.getElementById('cell_days').innerHTML = str;
+
+    var setColor = function (item, time) {
+        setTimeout(function () {
+            item.className = 'square full';
+        }, time)
+    };
+
+    var color = function () {
+        var days_passed_int = days_passed.toFixed(0) - 1;
+        var list = document.querySelectorAll("#cell_days .square");
+        for (var i = 0; i < list.length && i < days_passed_int; i++) {
+            setColor(list[i], i * 30);
+        }
+        var weeks_passed_int = weeks_passed.toFixed(0) - 1;
+        var list = document.querySelectorAll("#cell_weeks .square");
+        for (var i = 0; i < list.length && i < weeks_passed_int; i++) {
+            setColor(list[i], i * 210);
+        }
+    };
+
+    setTimeout('color()', 1000);
 
 </script>
 </html>

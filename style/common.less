@@ -1,0 +1,124 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background-color: #ddd;
+}
+
+.width {
+  width: 70%;
+  margin: 16px auto 20px auto;
+  font-size: 0;
+
+}
+
+.square {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  margin: 1px;
+  transition: border-color, background-color 1s linear;
+  &.empty {
+    background-color: white;
+    border: 1px solid #1C1C1C;
+  }
+  &.full {
+    background-color: #1C1C1C;
+    border: 1px solid white;
+  }
+  &.full:hover {
+    border-color: #1C1C1C;
+  }
+  &.empty:hover {
+    border-color: white;
+  }
+}
+
+.info {
+  padding-bottom: 5px;
+  .text {
+    font-size: 15px;
+    vertical-align: top;
+    height: 22px;
+    display: inline-block;
+    margin: 1px;
+    line-height: 22px;
+    padding-right: 5px;
+    span {
+      font-weight: bold;
+    }
+  }
+}
+.block-days, .block-weeks {
+  background-color: dimgrey;
+  padding: 20px;
+  margin-top: 4px;
+}
+
+.block-date {
+  line-height: 50px;
+  font-size: 30px;
+  color: white;
+  height: 50px;
+  background-color: dimgrey;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-top: 4px;
+  img {
+    padding-top: 13px;
+    width: 20px;
+    height: auto;
+    float: right;
+  }
+}
+
+.block-video {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: #B2B2B2;
+  margin-top: 4px;
+  transition: background-color 0.5s linear;
+  .video {
+    margin-left: auto;
+    margin-right: auto;
+    width: 640px;
+    iframe {
+      width: 640px;
+      height: 360px;
+    }
+  }
+  &.hover {
+    background-color: #1C1C1C;
+  }
+}
+
+@media all and (max-width: 930px) {
+  .block-video .video {
+    width: 400px;
+    iframe {
+      width: 400px;
+      height: 260px;
+    }
+  }
+}
+
+@media all and (max-width: 600px) {
+  .width {
+    width: 98%;
+  }
+}
+
+@media all and (max-width: 420px) {
+  .block-video .video {
+    width: 100%;
+    iframe {
+      width: 100%;
+      height: auto;
+    }
+  }
+}
+
+@media all and (max-width: 230px) {
+  .block-date img {
+    display: none;
+  }
+}

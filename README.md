@@ -1,2 +1,7 @@
-time left
-=========
+# time left
+
+Installation
+---
+```
+sh bin/deploy
+```
