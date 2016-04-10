@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head lang="ru">
+    <base href="/">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1 user-scalable=no">
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .square {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            margin: 1px
+        }
+
+        .square.empty {
+            background-color: white;
+            border: 1px solid #1C1C1C;
+
+        }
+
+        .square.full {
+            background-color: #1C1C1C;
+            border: 1px solid white;
+        }
+
+        .width {
+            /*margin-top: 100px;*/
+            width: 70%;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 0;
+        }
+
+        #block_date {
+            /*height: 50px;*/
+            font-size: 65px;
+            text-align: center;
+            font-family: Garuda, Arial, FreeSans;
+        }
+
+        #date, #clock {
+            display: inline-block;
+        }
+
+        #block_weeks div, #block_days div {
+            font-size: 65px;
+            font-family: Garuda;
+        }
+
+    </style>
+</head>
+<body>
+<div class="width">
+    <div id="block_date">
+        <div id="date"></div>
+        <div id="clock"></div>
+    </div>
+    <div id="block_weeks"></div>
+    <div id="block_days"></div>
+</div>
+</body>
+<script>
+
+    function startTime() {
+        var today = new Date();
+        var h = today.getHours();
+        var m = today.getMinutes();
+        var s = today.getSeconds();
+        m = checkTime(m);
+        s = checkTime(s);
+        document.getElementById('clock').innerHTML =
+                h + ":" + m + ":" + s;
+        var t = setTimeout(startTime, 500);
+    }
+    function checkTime(i) {
+        if (i < 10) {
+            i = "0" + i
+        }
+        ;  // add zero in front of numbers < 10
+        return i;
+    }
+    startTime();
+
+
+    var current_date_time = new Date();
+
+    var time_start_of_year_msec = (new Date(current_date_time.getFullYear(), 0, 1)).getTime();
+    var time_fin_of_year_msec = (new Date(current_date_time.getFullYear(), 11, 31)).getTime();
+
+    var current_time_msec = current_date_time.getTime();
+
+    // прошедшее время с начала года, в миллисекундах
+    var past_time_start_year_msec = current_time_msec - time_start_of_year_msec;
+    var past_time_fin_year_msec = (time_fin_of_year_msec - time_start_of_year_msec) - past_time_start_year_msec;
+
+    // количество часов в одной неделе
+    var msec_one_week = 604800000;
+    var msec_one_day = 86400000;
+
+    var days_left = past_time_start_year_msec / msec_one_day;
+    var days_will = past_time_fin_year_msec / msec_one_day;
+
+    var weeks_left = past_time_start_year_msec / msec_one_week;
+    var weeks_will = past_time_fin_year_msec / msec_one_week;
+
+    document.getElementById('date').innerHTML = checkTime(current_date_time.getDate()) + '.' + checkTime(current_date_time.getMonth() + 1) + '.' + current_date_time.getFullYear();
+    var str = '<div>' + days_left.toFixed(0) + '/' + days_will.toFixed(0) + '</div>';
+    for (var i = 1; i <= weeks_left.toFixed(1); i++) {
+        str += '<div class="square full"></div>';
+    }
+
+    for (var i = 1; i <= weeks_will.toFixed(1); i++) {
+        str += '<div class="square empty"></div>';
+    }
+    document.getElementById('block_weeks').innerHTML = str;
+
+    str = '';
+    for (var i = 1; i <= days_left.toFixed(1); i++) {
+        str += '<div class="square full"></div>';
+    }
+
+    for (var i = 1; i <= days_will.toFixed(1); i++) {
+        str += '<div class="square empty"></div>';
+    }
+    document.getElementById('block_days').innerHTML = str;
+
+</script>
+</html>
