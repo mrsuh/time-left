@@ -9,59 +9,57 @@
 <body>
 <div class="width">
 
-    <div class="block-date">
-        <span id="date"></span>
-        <a href="https://github.com/mrsuh/time-left"><img src="github-ico.png"></a>
+    <div class="block-weeks">
+        <div class="info">
+            <div class="square full"></div>
+            <div class="text"><span id="weeks_passed" class="selected"></span> weeks <span class="selected">passed</span></div>
+            <div class="square empty"></div>
+            <div class="text"><span id="weeks_left" class="selected"></span> weeks <span class="selected">left</span> in <span class="selected">this</span> year</div>
+        </div>
+        <div id="cell_weeks"></div>
     </div>
 
     <div class="block-video">
+        <div class="btn">
+            <span class="show">SHOW VIDEO</span>
+            <span class="hide">HIDE</span>
+        </div>
         <div class="video">
             <iframe src="https://embed-ssl.ted.com/talks/meg_jay_why_30_is_not_the_new_20.html" width="640" height="360"
                     frameborder="0" scrolling="no" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
         </div>
     </div>
 
-    <div class="block-weeks">
-        <div class="info">
-            <div class="square full"></div>
-            <div class="text"><span id="weeks_passed"></span> weeks passed</div>
-            <div class="square empty"></div>
-            <div class="text"><span id="weeks_left"></span> weeks left</div>
-        </div>
-        <div id="cell_weeks"></div>
-    </div>
-
     <div class="block-days">
         <div class="info">
             <div class="square full"></div>
-            <div class="text"><span id="days_passed"></span> days passed</div>
+            <div class="text"><span id="days_passed" class="selected"></span> days <span class="selected">passed</span></div>
             <div class="square empty"></div>
-            <div class="text"><span id="days_left"></span> days left</div>
+            <div class="text"><span id="days_left" class="selected"></span> days <span class="selected">left</span> in <span class="selected">this</span> year</div>
         </div>
         <div id="cell_days"></div>
     </div>
 
 </div>
+<div class="link">
+    <a href="https://github.com/mrsuh/time-left"><img src="github-ico.png"></a>
+</div>
+
 
 </body>
 <script>
 
-    var block_video_video =document.querySelector('.block-video .video');
-    var block_video =document.querySelector('.block-video');
+    var block_video = document.querySelector('.block-video');
+    var block_video_hide = document.querySelector('.block-video .hide');
+    var block_video_show = document.querySelector('.block-video .show');
 
-    block_video_video.onmouseover = function () {
-        block_video.className = 'block-video hover';
+    block_video_show.onclick = function(e) {
+        block_video.className = 'block-video show';
     };
-    block_video_video.onmouseout = function () {
+
+    block_video_hide.onclick = function(e) {
         block_video.className = 'block-video';
     };
-
-    function checkTime(i) {
-        if (i < 10) {
-            i = "0" + i
-        }
-        return i;
-    }
 
     var current_date_time = new Date();
 
@@ -87,8 +85,6 @@
 
     document.getElementById('weeks_passed').innerHTML = weeks_passed.toFixed(0);
     document.getElementById('weeks_left').innerHTML = weeks_left.toFixed(0);
-
-    document.getElementById('date').innerHTML = checkTime(current_date_time.getDate()) + '.' + checkTime(current_date_time.getMonth() + 1) + '.' + current_date_time.getFullYear();
 
     var str = '';
     var weeks = parseInt(weeks_passed.toFixed(0)) + parseInt(weeks_left.toFixed(0));
