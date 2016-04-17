@@ -2,7 +2,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   background-color: #e6e6e6;
-
 }
 
 .width {
@@ -18,7 +17,7 @@ body {
   }
 }
 
-.selected{
+.selected {
   color: #FFFFFF;
   font-weight: bold;
 }
@@ -47,6 +46,7 @@ body {
 
 .info {
   padding-bottom: 5px;
+
   .text {
     font-size: 15px;
     vertical-align: top;
@@ -67,10 +67,12 @@ body {
   background-size: 150% 150%;
   margin-top: 4px;
 }
-.block-weeks{
+
+.block-weeks {
   padding: 20px 20px 4px 20px;
 }
-.block-days{
+
+.block-days {
   padding: 4px 20px 20px 20px;
 }
 
@@ -99,7 +101,7 @@ body {
     }
 
     .hide {
-      opacity: 1;
+      display: inline;
       &:hover {
         cursor: pointer;
       }
@@ -128,7 +130,7 @@ body {
     }
 
     .hide {
-      opacity: 0;
+     display: none;
       float: right;
       padding-right: 5px;
       color: #FFFFFF;
@@ -148,11 +150,15 @@ body {
 }
 
 @media all and (max-width: 930px) {
-  .block-video .video {
-    width: 400px;
-    iframe {
+  .block-video.show {
+    height: 280px;
+    .video{
       width: 400px;
-      height: 260px;
+
+      iframe {
+        width: 400px;
+        height: 260px;
+      }
     }
   }
 }
@@ -170,11 +176,5 @@ body {
       width: 100%;
       height: auto;
     }
-  }
-}
-
-@media all and (max-width: 230px) {
-  .block-date img {
-    display: none;
   }
 }
