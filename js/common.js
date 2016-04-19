@@ -58,14 +58,14 @@ var setColor = function (item, time) {
 
 var color = function () {
     var days_passed_int = days_passed.toFixed(0) - 1;
-    var list = document.querySelectorAll("#cell_days .square");
-    for (var i = 0; i < list.length && i < days_passed_int; i++) {
-        setColor(list[i], i * 30);
+    var list_days = document.querySelectorAll("#cell_days .square");
+    for (var i = 0; i < list_days.length && i < days_passed_int; i++) {
+        setColor(list_days[i], i * 30);
     }
     var weeks_passed_int = weeks_passed.toFixed(0) - 1;
-    var list = document.querySelectorAll("#cell_weeks .square");
-    for (var i = 0; i < list.length && i < weeks_passed_int; i++) {
-        setColor(list[i], i * 210);
+    var list_weeks = document.querySelectorAll("#cell_weeks .square");
+    for (var i = 0; i < list_weeks.length && i < weeks_passed_int; i++) {
+        setColor(list_weeks[i], i * 210);
     }
 };
 
